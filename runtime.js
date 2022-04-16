@@ -51,6 +51,7 @@ function AstaComponent(name, options) {
         if (typeof value === 'function') {
             let me = that
             that[key] = function (...args) {
+                debugger
                 value.call(that, args)
                 this.update()
             }
@@ -87,6 +88,7 @@ function create(tag) {
 }
 
 function update(key, value) {
+    debugger
     let that = this
     if (key != null) {
         if (typeof key === 'object') {
@@ -101,11 +103,18 @@ function update(key, value) {
     if (this.queued === false) {
         this.queued = true
         let instance = this
-        setTimeout(() => {
+        Promise.resolve().then(() => {
+            debugger
             instance.view[1]()
             instance.queued = false
             instance.emit('update')
-        }, 0)
+        })
+        // setTimeout(() => {
+        //     debugger
+        //     instance.view[1]()
+        //     instance.queued = false
+        //     instance.emit('update')
+        // }, 0)
     }
 }
 
